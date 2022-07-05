@@ -32,9 +32,10 @@
 cd backend
 ```
 
-## Codigo para criar as chaves para o HTTPS
+## Codigo para criar as chaves para o HTTPS e Liberar o acesso a elas
 ```
 make generate_keys_https
+sudo chown $(whoami) $PWD -R
 ```
 
 ## Codigo para rodar o servidor no docker

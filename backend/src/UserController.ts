@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import EmailService from '../services/EmailService';
+import EmailService from './services/EmailService';
 
 const users = [
   { name: 'Edno Almeida', email: 'edno@hotmail.com.br' },

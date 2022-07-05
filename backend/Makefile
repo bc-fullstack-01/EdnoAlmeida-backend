@@ -6,7 +6,7 @@ run_dockercompose:
 	docker-compose up
 
 allow_permission:
-	sudo chown $(whoami) "." -R
+	sudo chown $(whoami) $PWD -R
 
 generate_keys_https:
 	sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certs/selfsigned.key -out ./certs/selfsigned.crt

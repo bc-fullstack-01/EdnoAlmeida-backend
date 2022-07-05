@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  node-express:
+  node-express-bot:
     build: .
     command: yarn dev:server
     restart: always
@@ -11,17 +11,17 @@ services:
     volumes:
       - .:/usr/src/app
     links:
-      - mongodb
+      - mongodb-bot
     depends_on:
-      - mongodb
+      - mongodb-bot
     environment:
-      WAIT_HOSTS: mongodb:27017
+      WAIT_HOSTS: mongodb-bot:27017
 
     networks:
       - node-webapp-network
 
-  mongodb:
-    container_name: mongodb
+  mongodb-bot:
+    container_name: mongodb-bot
     image: mongo
     volumes:
       - ~/mongo:/data/db
