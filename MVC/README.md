@@ -9,36 +9,37 @@
 <li>cors</li>
 </ul>
 
-# Futuras implementações:
-## Arquitetura MVC
-## Testes
-## ORM 
 
 ## API
 <ul>
 <li>HTTPS</li>
-<li>JWT</li>
+<li>JWT | Implementar</li>
 </ul>
 
 ## GitActions
 <ul>
-<li>Execução de teste</li>
-<li>Verificação de código estático</li>
+<li>Execução de teste | Implementar</li>
+<li>Verificação de código estático | Implementar</li>
 </ul>
 
+# Futuras implementações:
+## Testes
+## ORM 
+
+
 # Execução:
-## Codigo fazer o setup
+## Código para o setup
 ```
 cd backend
 ```
 
-## Codigo para criar as chaves para o HTTPS e Liberar o acesso a elas
+## Código para criar as chaves para o HTTPS e Liberar o acesso a elas
 ```
 make generate_keys_https
 sudo chown $(whoami) $PWD -R
 ```
 
-## Codigo para rodar o servidor no docker
+## Código para rodar o servidor no docker
 ```
 make run_dockercompose
 ```

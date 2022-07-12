@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import EmailService from './services/EmailService';
+import EmailService from '../services/EmailService';
 
 const users = [
     { name: 'Edno Almeida', email: 'edno@hotmail.com.br' },
@@ -20,7 +20,7 @@ async function friends(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     const emailService = new EmailService();
-    console.log('teste de docker')
+    console.log(req.body)
 
     emailService.sendMail({
         to: {
@@ -33,7 +33,9 @@ async function create(req: Request, res: Response) {
         }
     });
 
-    return res.send();
+    res.send();
+    res.status(203)
+    res.end()
 }
 
 const routes = Router()
