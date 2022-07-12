@@ -30,7 +30,8 @@ router
             .then(() => comment)
         )
         .then(data => res.status(201).json(data))
-        .catch(err => next(err)));
+        .catch(err => next(err))
+    );
 
 //@router POST/post/{postId}/comments
 

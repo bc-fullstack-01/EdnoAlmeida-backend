@@ -1,6 +1,5 @@
 
-import https from 'https'
-
+const https = require('https')
 const app = require('./app')
 
 const options = {
@@ -10,11 +9,13 @@ const options = {
 
 const PORT = process.env.PORT || 3000
 
-const server = https.createServer(options, app)
+// const server = https.createServer(options, app)
 
-server.listen(PORT, () => {
+// server.listen(PORT, () => {
+//     console.log('server listen in https://0.0.0.0:3000')
+// })
+
+
+app.listen(PORT, () => {
     console.log('server listen in https://0.0.0.0:3000')
 })
-
-
-//app.listen(PORT, HOST)

@@ -1,22 +1,26 @@
 const { Schema, model } = require("mongoose");
 
-const commentSchema = new mongoose.Schema({
+const commentSchema = new Schema({
     description: {
         type: String,
         required: [true, "Comment content can't be empty"],
         minLength: [2, `Minimum of 2 characters, " {VALUE} " unmet quantity`]
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+    post: {
+        type: Schema.Types.ObjectId,
         ref: "Post",
         required: true
+    },
+    likes: {
+        type: Schema.Types.ObjectId,
+        ref: "Profile",
     },
 });
 
 
-module.exports = model("comment", commentSchema)
+module.exports = model("Comment", commentSchema)
