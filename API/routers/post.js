@@ -1,5 +1,5 @@
 const express = require("express");
-const { Post, Comments } = require("../model")
+const { Post, Comments } = require("../models")
 
 const router = express.Router();
 
@@ -47,4 +47,6 @@ router
         })
         .catch(err => next(err))
     );
+
+    
 module.exports = router;

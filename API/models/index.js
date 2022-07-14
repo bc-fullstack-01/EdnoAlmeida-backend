@@ -14,17 +14,17 @@ const connect = mongoose.connect(
 console.log(mongoose.connection.readyState);
 
 mongoose.connection.on("error", () => {
-    console.error(`Mongo not connected ${JSON.stringify(args)}`);
+    console.error(`Mongo not connected!`);
 });
 mongoose.connection.on("connected", () => {
-    console.warn(`Mongo connected ${JSON.stringify(args)}`);
+    console.warn(`Mongo connected!`);
 });
 mongoose.connection.on("disconnected", () => {
-    console.error(`Mongo disconnected ${JSON.stringify(args)}`);
+    console.error(`Mongo disconnected!`);
 });
 
 exports.Post = require("./post.js");
-exports.Comments = require("./comments.js")
+exports.Comments = require("./comment.js")
 exports.User = require("./user.js")
 
 exports.Connection = connect;

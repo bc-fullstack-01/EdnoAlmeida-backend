@@ -1,11 +1,10 @@
-
 const https = require('https')
 const app = require('./app')
 
-const options = {
-    key: fs.readFileSync(path.join(__dirname, '../certs/selfsigned.key')),
-    cert: fs.readFileSync(path.join(__dirname, '../certs/selfsigned.crt'))
-}
+// const options = {
+//     key: fs.readFileSync(path.join(__dirname, '../certs/selfsigned.key')),
+//     cert: fs.readFileSync(path.join(__dirname, '../certs/selfsigned.crt'))
+// }
 
 const PORT = process.env.PORT || 3000
 

@@ -12,15 +12,15 @@ const swaggerUi = require('swagger-ui-express');
 
 
 // Variables
-const ACCESS_TOKEN_SECRET = 'SDFSFSDFSDFSDdsfsdfds'
+const ACCESS_TOKEN_SECRET = process.env.ACCES_TOKEN_SECRET || "thisismytoken"
 const swaggerDocument = require('./swagger.json')
 const options = Object.assign(swaggerDocument, { basedir: __dirname })
 const morganLogPath = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
 
 // Files import
-const { Connection } = require("./model")
-const { User: UserModel } = require("./model")
+const { Connection } = require("./models")
+const { User: UserModel } = require("./models")
 const { Post, Comment, User } = require("./routers");
 
 
@@ -35,7 +35,7 @@ app.use(cors())
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(logger(process.env.DEV || "dev"), { stream: accessLogStream });
+app.use(logger(process.env.DEV || "dev", { stream: morganLogPath }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -43,23 +43,23 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // set logger
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers.authorrization
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = req.headers.authorrization
     if (token == null) return next(createError(401))
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) return next(createError(403))
-        UserModel.findOne({ user })
-            .then(u => {
-                req.user = u
+        UserModel.findOne(decoded.userId)
+            .then(user => {
+                req.user = user
                 next()
             })
+            .catch(err => next(err))
     })
 }
 
 // Routers
-app.use("/v1/posts", authenticateToken, Comment);
-app.use("/v1/posts", authenticateToken, Post);
 app.use("/v1/user", User)
+app.use("/v1/comment", authenticateToken, Comment);
+app.use("/v1/posts", authenticateToken, Post);
 
 
 

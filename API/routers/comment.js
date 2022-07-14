@@ -1,7 +1,7 @@
 const express = require("express");
 const createError = require("http-errors");
 
-const { Connection, Post, Comments } = require("../model");
+const { Connection, Post, Comments } = require("../models");
 
 
 const router = express.Router();

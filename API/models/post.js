@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 
-const postSchema = new mongoose.Schema({
+const postSchema = new Schema({
     title: {
         type: String,
         required: [true, "No empty posts allowed"],
@@ -17,7 +17,7 @@ const postSchema = new mongoose.Schema({
         ref: 'User'
     },
     comments: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Comment"
     }]
 });
