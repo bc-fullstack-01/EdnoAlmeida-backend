@@ -33,8 +33,6 @@ router
         .catch(err => next(err))
     );
 
-//@router POST/post/{postId}/comments
-
 
 router
     .param('id', (req, res, next, id) => Promise.resolve()

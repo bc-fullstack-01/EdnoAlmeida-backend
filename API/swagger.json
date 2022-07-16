@@ -1,1 +1,363 @@
-{}
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Social media",
+        "description": "Documentation from social media API",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "components":{
+        "securitySchemes":{
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/posts":{
+            "get":{
+                "security": [{"bearerAuth": []}],
+                "description": "Pega todos os posts",
+                "summary": "Pega todos os posts",
+                "tags":["Post"],
+                "responses":{
+                "200":{"description": "Ok"}
+               } 
+            },
+            "post":{
+                "security": [{"bearerAuth": []}],
+                "description": "Cria um post",
+                "summary": "Cria um post",
+                "tags":["Post"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "title":{"type": "string"},
+                                    "content":{"type": "string"}
+                                },
+                                "example":{
+                                    "title": "Ola esse é meu primeiro post",
+                                    "content": "Bem vindo ao meu primeiro post"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{"description": "Post criado"}
+                }
+            }
+        },
+        "/posts/{id}":{
+            
+            "get": {
+                "security": [{"bearerAuth": []}],
+                "description": "Busca de um post pelo id",
+                "summary": "Busca de um post pelo id",
+                "tags": ["Post"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [{"bearerAuth": []}],
+                "description": "Deletar um post",
+                "summary": "Deleta um post",
+                "tags": ["Post"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                }],
+                "responses":{
+                    "200":{"description": "Deletado com sucesso"}
+                }
+            },
+            "put":{
+                "security": [{"bearerAuth": []}],
+                "description": "Atualizar um post",
+                "summary": "Atualizar um post",
+                "tags": ["Post"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                }],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "title":{"type": "string"},
+                                    "content":{"type": "string"}
+                                },
+                                "example":{
+                                    "title": "Ola esse é um post",
+                                    "content": "Bem vindo ao  post"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{"description": "Post atualizado"}
+                }
+            }
+        },
+        "/posts/{postId}":{
+            "post":{
+                "security": [{"bearerAuth": []}],
+                "description": "Cria um comentario",
+                "summary": "Cria um comentario",
+                "tags":["Comment"],
+                "parameters": [{
+                    "name": "postId",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                }],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "content":{"type": "string"}
+                                },
+                                "example":{
+                                    "content": "Bem vindo ao meu primeiro comentario"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{"description": "Comentario criado"}
+                }
+            }
+        },
+        "/posts/{postId}/comments/{id}":{
+            "get":{
+                "security": [{"bearerAuth": []}],
+                "description": "Busca de um comentario pelo id",
+                "summary": "Busca de um comentario pelo id",
+                "tags": ["Comment"],
+                "parameters": [{
+                    "name": "postId",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do comentario",
+                    "required": true
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "security": [{"bearerAuth": []}],
+                "description": "Atualizar um comentario",
+                "summary": "Atualizar um comentario",
+                "tags": ["Comment"],
+                "parameters": [{
+                    "name": "postId",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do comentario",
+                    "required": true
+                }],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "content":{"type": "string"}
+                                },
+                                "example":{
+                                    "content": "Isso é um comentario"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{"description": "Comentario atualizado"}
+                }
+            },
+            "delete": {
+                "security": [{"bearerAuth": []}],
+                "description": "Deletar um comentario",
+                "summary": "Deleta um comentario",
+                "tags": ["Comment"],
+                "parameters": [{
+                    "name": "postId",
+                    "in": "path",
+                    "description": "Id do post",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id do comentario",
+                    "required": true
+                }],
+                "responses":{
+                    "200":{"description": "Deletado com sucesso"}
+                }
+            }
+        },
+        "/security/register":{
+            "post":{
+                "description": "Cria um usuario",
+                "summary": "Cria um usuario",
+                "tags":["Security"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "name": "Deyllinho",
+                                    "user":{"type": "string"},
+                                    "password":{"type": "string"}
+                                },
+                                "example":{
+                                    "name": "Deyllinho",
+                                    "user": "Dey",
+                                    "password": "Senha"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{"description": "Usuario criado"}
+                }
+            }
+        },
+        "/security/login":{
+            "post":{
+                "description": "Login do usuario",
+                "summary": "Loga um usuario",
+                "tags":["Security"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "user":{"type": "string"},
+                                    "password":{"type": "string"}
+                                },
+                                "example":{
+                                    "user": "Dey",
+                                    "password": "Senha"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{"description": "Usuario criado"}
+                }
+            }
+        },
+        "/users/me":{
+            "get":{
+                "security": [{"bearerAuth": []}],
+                "description": "Recupera o usuario",
+                "summary": "Recupera o usuario",
+                "tags": ["Users"],
+                "responses":{
+                    "200":{"description": "Ok"}
+                } 
+            },
+            "put":{
+                "security":[{"bearerAuth": []}],
+                "description": "Atualiza o usuario",
+                "summary": "Atualiza o usuario",
+                "tags": ["Users"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "name": {"type": "string"},
+                                    "user":{"type": "string"},
+                                    "password":{"type": "string"}
+                                },
+                                "example":{
+                                    "name": "Deynone",
+                                    "user": "Dey",
+                                    "password": "Senha"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{"description": "Atualizado com sucesso"}
+                }
+            },
+            "delete":{
+                "security": [{"bearerAuth": []}],
+                "description": "Deletar um usuario",
+                "summary": "Deleta um usuario",
+                "tags": ["Users"],
+                "responses":{
+                    "200":{"description": "Deletado com sucesso"}
+                }
+            }
+        },
+        "/feed":{
+            "get":{
+                "security": [{"bearerAuth": []}],
+                "description": "Recupera todas as postagen de perfis seguidos",
+                "summary": "Recupera postagens de perfis seguidos",
+                "tags": ["Feed"],
+                "responses":{
+                    "200":{"description": "Ok"}
+                } 
+            }
+        }
+    }
+}

@@ -1,5 +1,7 @@
 const express = require("express");
 const { Post, Comments } = require("../models")
+const { pub } = require('../libs/pubsub')
+const RabbitmqServer = require("../libs/rabbitmq");
 
 const router = express.Router();
 
@@ -12,13 +14,26 @@ router
         })
         .catch(err => next(err))
     )
-    .post((req, res, next) => Promise.resolve()
-        .then(() => new Post(req.body).save())
-        .then(() => {
+    // .post((req, res, next) => Promise.resolve({...req.body, profile: req.user.profile._id})
+    //     // .then(() => new Post(req.body).save())
+    //     .then(args => req.publish('post', req.user.profile.followes, args))
+    //     .then(() => res.status(201).send({ message: "Created a Post" }))
+    //     .catch(err => next(err)))
+
+    .post(async function (req, res, next) {
+        try{
+            const server = new RabbitmqServer('amqp://admin:admin@rabbitmq:5672');
+            await server.start();
+            await server.publishInQueue('nest', JSON.stringify(req.body));
+            await server.publishInExchange('amq.direct', 'rota', JSON.stringify(req.body));
             res.status(201).send({ message: "Created a Post" })
-        })
-        .catch(err => next(err))
-    )
+        } catch (err){
+            next(err)
+        }
+
+    });
+
+
 
 router
     .route("/:id")
@@ -48,5 +63,5 @@ router
         .catch(err => next(err))
     );
 
-    
+
 module.exports = router;

@@ -8,5 +8,6 @@
 <li>express-swagger-generator-</li>
 <li>cors</li>
 <li>morgan</li>
+<li>bcrypt</li>
 
 </ul>

@@ -7,15 +7,14 @@ const cors = require("cors")
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const path = require('path')
-
 const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const pubsub = require("./libs/pubsub")
 
 
 // Variables
 const ACCESS_TOKEN_SECRET = process.env.ACCES_TOKEN_SECRET || "thisismytoken"
-const swaggerDocument = require('./swagger.json')
-const options = Object.assign(swaggerDocument, { basedir: __dirname })
-const morganLogPath = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+const morganLogPath = fs.createWriteStream(path.join(__dirname, 'Logs/access.log'), { flags: 'a' })
 
 
 // Files import
@@ -26,24 +25,37 @@ const { Post, Comment, User } = require("./routers");
 
 // instanciate express
 const app = express();
-// const expressSwagger = esg(app)
-// expressSwagger(options)
+
+// Documentation
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'SysMap Social App',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./routers/*.js', './models/*.js'],
+};
+const openapiSpecification = swaggerJsdoc(options);//https://github.com/Surnet/swagger-jsdoc
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, {
+    explorer: true
+}));
 
 
 // Middware
 app.use(cors())
-app.use(helmet());
+// app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger(process.env.DEV || "dev", { stream: morganLogPath }));
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use(express.static(path.join(__dirname, "public")))
 
 
-// set logger
+// Authentication
 function authenticateToken(req, res, next) {
-    const token = req.headers.authorrization
+    const authHeader = req.headers.authorrization
+    const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return next(createError(401))
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) return next(createError(403))
@@ -56,14 +68,17 @@ function authenticateToken(req, res, next) {
     })
 }
 
+
+
 // Routers
+app.use(pubsub.pub)
 app.use("/v1/user", User)
 app.use("/v1/comment", authenticateToken, Comment);
 app.use("/v1/posts", authenticateToken, Post);
 
 
 
-// Erro Middwares
+// Erro Middware
 app.use((req, res, next) => next(createError(404)));
 app.use((err, req, res, next) => {
     if (err.name && err.name === "ValidationError") {

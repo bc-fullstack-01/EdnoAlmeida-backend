@@ -1,0 +1,19 @@
+backend:
+  restart: always
+  build:
+    context: ./
+  volumes:
+    - .:/src
+  depends_on:
+    - rabbitmq
+    - mongodb
+    - minio
+  enviroment:
+    PORT: 4000
+    AMQP_URL: amqp://guest:guest@rabbitmq:5672
+    MONGO_URL:
+    ACESS_TOKEN_SECRET:
+    BUCKET_HOST:
+    BUCKET_ENDPOINT:
+    BUCKET_ACCESS_KEY:
+    BUCKET_SECRET_KET:
